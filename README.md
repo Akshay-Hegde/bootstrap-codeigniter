@@ -14,7 +14,6 @@ Helper para manejar bootstrap 3 en las vistas de codeigniter
 	}
 
 <h3> View </h3>
-<br>
 
 	echo form_open("lol/");
 	$atributos = array('style' 	=> 'text-align: center;');
