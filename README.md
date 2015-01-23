@@ -14,7 +14,12 @@ Helper para manejar bootstrap 3 en las vistas de codeigniter
 	}
 
 <h3> View </h3>
+	
+	# Don't forget <?php ?>
+	# Copy/Paste into <head> </head>
+	<?= load_bootstrap(); ?>
 
+	# Copy/Paste into <body> </body>
 	echo form_open("lol/");
 	$atributos = array('style' 	=> 'text-align: center;');
 	echo form_input_text('nombre', 'Ingresa nombre', $atributos);
