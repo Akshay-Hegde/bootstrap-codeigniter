@@ -23,6 +23,7 @@ if(!function_exists('load_bootstrap')){
 
 		$bootstrap .= "<script src='//code.jquery.com/jquery-1.11.2.min.js'></script>";
 		$bootstrap .= "<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js'></script>";
+		$bootstrap .= "<script src='http://markusslima.github.io/bootstrap-filestyle/js/bootstrap-filestyle.min.js'></script>";
 		return $bootstrap;
 	}
 }
@@ -61,6 +62,33 @@ if(!function_exists('form_open'))
 			return "Error falta el parámetro action en el método form_open('controller/method')";
 		}
     }   
+}
+
+if(!function_exists('form_open_multipart')){
+	function form_open_multipart($action = '', $atributos = '')
+	{
+		//obtenemos instancia global del core CodeIgniter
+		$CI =& get_instance();
+		//obtenemos la base url establecida en la configuración
+		$base_url = $CI->config->item('base_url');
+		
+		//validamos que el usuario haya ingresado datos en el método
+		if($action != ''){
+			//validamos que la ruta a la cual se envían los datos del formulario, sea valida
+			if(strpos($action, '/')){
+				//regresamos el código correspondiente html
+				$form  = "<form role='form' action='". $base_url . $action ."' enctype='multipart/form-data'";
+				$form .= setAtributos($atributos,'form');
+				$form .= " accept-charset='utf-8'>";
+				return $form;
+			}else{
+				//regresamos un error en caso de que la action no sea correcta
+				return "<br>Error, el parámetro de form_open debe contener la siguiente sintaxis: <br>controller/method --- Error: [" . $action ."]";
+			}	 
+		}else{
+			return "Error falta el parámetro action en el método form_open('controller/method')";
+		}
+	}
 }
 
 //---------- </form>
@@ -259,6 +287,26 @@ if(!function_exists('form_input_select')){
 	}
 }
 
+//----- input file
+/**
+ * Este método genera código estándar para la creación de opciones de un select html
+ * es necesario utilizar el método select_options($data = array('value' => 'display'));
+ * para que este método funcione correctamente.
+ * @param 	$options - [array asociativo]
+ * @since 	1.0.1
+ * @version 1.0.1
+ * @return 	String - <div class...><select ...> 
+ */
+if(!function_exists('form_input_file')){
+	function form_input_file($name = '', $texto = 'Seleccionar archivo')
+	{	
+		$div  = "<div class='form-group'>";
+		$div .= "<input name='$name' type='file' class='filestyle' data-icon='false' data-buttonText='$texto'>";	
+		$div .= "</div>";
+		return $div;
+	}
+}
+
 //--- options
 /**
  * Este método genera código estándar para la creación de opciones de un select html
@@ -293,7 +341,7 @@ if ( ! function_exists('form_submit'))
 {
     function form_submit($message = '')
     {
-    	return "<button type='submit' class='btn btn-default'>$message</button>";
+    	return "<div class='form-group'><input type='submit' class='form-control btn-success' value='$message'/></div>";
     }   
 }
 
