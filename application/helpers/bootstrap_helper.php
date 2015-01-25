@@ -289,19 +289,17 @@ if(!function_exists('form_input_select')){
 
 //----- input file
 /**
- * Este método genera código estándar para la creación de opciones de un select html
- * es necesario utilizar el método select_options($data = array('value' => 'display'));
- * para que este método funcione correctamente.
- * @param 	$options - [array asociativo]
- * @since 	1.0.1
- * @version 1.0.1
- * @return 	String - <div class...><select ...> 
+ * Este método genera código estándar para la creación de un input file de html
+ * @param   $texto - texto que se mostrara en el input example: 'choose a file'
+ * @since 	1.2.0
+ * @version 1.2.0
+ * @return 	String - <div class...><input ...> 
  */
 if(!function_exists('form_input_file')){
-	function form_input_file($name = '', $texto = 'Seleccionar archivo')
+	function form_input_file($texto = 'Seleccionar archivo')
 	{	
 		$div  = "<div class='form-group'>";
-		$div .= "<input name='$name' type='file' class='filestyle' data-icon='false' data-buttonText='$texto'>";	
+		$div .= "<input name='userfile' type='file' id='userfile' class='filestyle' data-icon='true' data-buttonText='$texto' required=''>";	
 		$div .= "</div>";
 		return $div;
 	}
@@ -332,8 +330,9 @@ if(!function_exists('select_options')){
 
 //-------------------------------------------------------------------------
 /**
+ * Este metodo genera un boton de submit para el formulario que se esta creando
  * @param   $atributos 	= array('placeholder' => 'ingresa texto') 
- * @since 	1.0.1
+ * @since 	1.2.0
  * @version 1.0.1
  * @return  button submit bootstrap
  */
