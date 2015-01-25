@@ -43,6 +43,7 @@ Helper para manejar bootstrap 3 en las vistas de codeigniter
 		// send file to method uploadTest of controller welcome
 		echo form_open_multipart("welcome/uploadTest");
 		echo form_input_file('Selecciona una imagen');
+		echo form_submit("Enviar formulario");
 		echo form_close();
 	?>
 
