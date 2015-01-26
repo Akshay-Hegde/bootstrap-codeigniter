@@ -305,7 +305,7 @@ if(!function_exists('form_input_file')){
 	}
 }
 
-//--- options
+//----- options
 /**
  * Este método genera código estándar para la creación de opciones de un select html
  * es necesario usar antes el método form_input_select
@@ -328,7 +328,7 @@ if(!function_exists('select_options')){
 	}
 }
 
-//-------------------------------------------------------------------------
+//----- submit
 /**
  * Este metodo genera un boton de submit para el formulario que se esta creando
  * @param   $atributos 	= array('placeholder' => 'ingresa texto') 
@@ -344,6 +344,45 @@ if ( ! function_exists('form_submit'))
     }   
 }
 
+//----- table
+/**
+ * Este metodo genera una tabla a travez de un $result = $this->db->...('SQL');
+ * example echo create_table($result);
+ * @param   $matriz = $result 
+ * @since 	1.2.1
+ * @version 1.2.1
+ * @return  codigo html para imprimir la tabla
+ */
+if(! function_exists('create_table')){
+	function create_table($matriz = null)
+	{
+		if($matriz == null){
+			return;
+		}
+		$content  = "<div class='table-responsive'>";
+		$content .= "<table class='table table-hover table-bordered table-condensed'>";
+		$content .=	"<thead>";
+		$content .=	"<tr>";  
+			foreach ($matriz->list_fields() as $field)
+			{
+				$content .= "<th style='text-align: center;'>" . $field . "</th>";
+			}
+		$content .=	"</tr>";
+		$content .=	"</thead>";
+		$content .=	"<tbody>";
+			foreach ($matriz->result_array() as $row) {
+				$content .= "<tr>";
+				foreach ($row as $key => $value) {
+					$content .= "<td style='text-align: center;'>" . $value . "</td>";
+				}
+				$content .= "</tr>";
+			}
+		$content .=	"</tbody>";
+		$content .=	"</table>";
+		$content .= "</div>";
+		return $content;
+	}
+}
 
 //----------------------
 /**
