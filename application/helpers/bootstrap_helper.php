@@ -31,14 +31,18 @@ if(!function_exists('load_bootstrap')){
 //---------- <form>
 /**
  * Este método crea un nuevo form con la configuración de bootstrap
- * @since 	1.0.1
- * @version 1.0.1
+ * @since 	1.1.0
+ * @version 1.1.0
  * @param 	$action - controllador/method que captara el submit 
  * @return  String -> <form ...>
  */
 if(!function_exists('form_open'))
 {
-    function form_open($action = '', $atributos = '')
+	/**
+	 * 1.0.1 => 1.1.0  
+	 * $atributos = '' => $atributos = null
+	 */
+    function form_open($action = '', $atributos = null)
     {
     	//obtenemos instancia global del core CodeIgniter
 		$CI =& get_instance();
@@ -118,20 +122,31 @@ if(!function_exists('form_close'))
 if(!function_exists('form_input'))
 {
     function form_input($type = 'text', $name = '', 
-    	$message = 'Ingresa información', $atributos = null)
+    	$message = '', $atributos = null, $value = '')
     {
     	$div  = "<div class='form-group'>";
     	if($atributos!= null){
     		if(array_key_exists('id', $atributos)){
-    			$div .= "<label for='". $atributos['id'] ."'>". $message ."</label>";
+    			if($message != ''){
+    				$div .= "<label for='". $atributos['id'] ."'>". $message ."</label>";
+    			}
     			$div .= "<input type='". $type ."' class='form-control' name='". $name ."'";
     		}else{
-    			$div .= "<label for='". $name ."'>". $message ."</label>";
+    			if($message != '')
+    			{
+    				$div .= "<label for='". $name ."'>". $message ."</label>";
+    			}
     			$div .= "<input type='" . $type . "' class='form-control' id='" . $name . "' name='". $name ."'"; 
     		}
-    		$div .= setAtributos($atributos, "input") . " required=''>";
+    		if(array_key_exists('value', $atributos)){
+    			$div .= setAtributos($atributos, "input") . " required=''>";
+    		}else{
+    			$div .= setAtributos($atributos, "input") . " required='' value='". $value ."'>";
+    		}
     	}else{
-    		$div .= "<label for='". $name ."'>". $message ."</label>";
+    		if($message != ''){
+    			$div .= "<label for='". $name ."'>". $message ."</label>";
+    		}
     		$div .= "<input type='" . $type . "' class='form-control' id='" . $name . "' name='". $name ."' required=''>";
     	}
 		return $div .= "</div>";
@@ -155,6 +170,109 @@ if(!function_exists('form_input_text'))
     {
     	return form_input("text",$name, $message, $atributos);
     }   
+}
+
+//---------- <input type='number'>
+/**
+ * Este método crea un input con la clase form-control, el atributo required, el
+ * atributo name = $name y los atributos enviados como array asociativo, también crea  
+ * un label que tiene el valor del parámetro $message
+ * @param $name 		= valor del atributo name
+ * @param $message 		= <label>$message</label>
+ * @param $atributos 	= array('placeholder' => 'ingresa texto') 
+ * @since 	1.0.1
+ * @version 1.0.1
+ */
+if(!function_exists('form_input_number'))
+{
+    function form_input_number($name = '', $message = '', $atributos = null)
+    {
+    	if(!array_key_exists('min',$atributos))
+    	{
+    		$atributos['min'] = '1';
+    	}
+    	if(!array_key_exists('max',$atributos))
+    	{
+    		$atributos['max'] = '150';
+    	}
+    	return form_input("number",$name, $message, $atributos);
+    }   
+}
+
+//---------- <input type='date'>
+/**
+ * Este método crea un input con la clase form-control, el atributo required, el
+ * atributo name = $name y los atributos enviados como array asociativo, también crea  
+ * un label que tiene el valor del parámetro $message
+ * @param $name 		= valor del atributo name
+ * @param $message 		= <label>$message</label>
+ * @param $atributos 	= array('placeholder' => 'ingresa texto') 
+ * @since 	1.0.1
+ * @version 1.0.1
+ */
+if(!function_exists('form_input_date'))
+{
+    function form_input_date($name = '', $message = '', $atributos = null)
+    {
+    	return form_input("date",$name, $message, $atributos);
+    }   
+}
+
+//---------- <input type='datetime'>
+/**
+ * Este método crea un input con la clase form-control, el atributo required, el
+ * atributo name = $name y los atributos enviados como array asociativo, también crea  
+ * un label que tiene el valor del parámetro $message
+ * @param $name 		= valor del atributo name
+ * @param $message 		= <label>$message</label>
+ * @param $atributos 	= array('placeholder' => 'ingresa texto') 
+ * @since 	1.0.1
+ * @version 1.0.1
+ */
+if(!function_exists('form_input_time'))
+{
+    function form_input_time($name = '', $message = '', $atributos = null)
+    {
+    	return form_input("time",$name, $message, $atributos);
+    }   
+}
+
+//---------- <input type='email'>
+/**
+ * Este método crea un input con la clase form-control, el atributo required, el
+ * atributo name = $name y los atributos enviados como array asociativo, también crea  
+ * un label que tiene el valor del parámetro $message
+ * @param $name 		= valor del atributo name
+ * @param $message 		= <label>$message</label>
+ * @param $atributos 	= array('placeholder' => 'ingresa texto') 
+ * @since 	1.0.1
+ * @version 1.0.1
+ */
+if(!function_exists('form_input_email'))
+{
+    function form_input_email($name = '', $message = '', $atributos = null)
+    {
+    	return form_input("email",$name, $message, $atributos);
+    }   
+}
+
+/**
+ * Este método crea un input con la clase form-control, el atributo required, el
+ * atributo name = $name y los atributos enviados como array asociativo, también crea  
+ * un label que tiene el valor del parámetro $message
+ * @param $name 		= valor del atributo name
+ * @param $message 		= <label>$message</label>
+ * @param $atributos 	= array('placeholder' => 'ingresa texto') 
+ * @param $value 		= valor del elemento
+ * @since 	1.1.0
+ * @version 1.1.0
+ */
+if(!function_exists('form_input_value'))
+{
+    function form_input_value($name = '', $message = '', $atributos = null, $value = '')
+    {
+    	return form_input("text",$name, $message, $atributos, $value);
+    }
 }
 
 //---------- <input type='password'>
@@ -275,14 +393,14 @@ if(!function_exists('form_input_checkbox')){
  * @return 	String - <div class...><select ...> 
  */
 if(!function_exists('form_input_select')){
-	function form_input_select($name = '', $multiple = false)
+	function form_input_select($name = '', $hidden = false)
 	{	
 		$div = "<div class='form-group'>";
-		if(!$multiple){
-			$div .= "<select name='". $name ."' class='form-control'>";	
+		if(!$hidden){
+			$div .= "<select id='". $name ."' name='". $name ."' class='form-control'>";	
 		}else{
-			$div .= "<select name='". $name ."' multiple class='form-control'>";
-		}
+			$div .= "<select id='". $name ."' name='". $name ."' class='form-control' style='display: none;'>";
+		} 
 		return $div;
 	}
 }
@@ -338,9 +456,10 @@ if(!function_exists('select_options')){
  */
 if ( ! function_exists('form_submit'))
 {
-    function form_submit($message = '')
+    function form_submit($message = '', $class = '')
     {
-    	return "<div class='form-group'><input type='submit' class='form-control btn-success' value='$message'/></div>";
+    	$class = $class == '' ? 'btn btn-success' : $class;
+    	return "<div class='form-group'><input type='submit' class='". $class ."' value='$message'/></div>";
     }   
 }
 
